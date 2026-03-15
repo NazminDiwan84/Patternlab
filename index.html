@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PatternLab – Interactive Pattern Learning</title>
+    <meta name="description"
+        content="Learn programming patterns interactively with dynamic visualizations and Java code generation.">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- PRISM JS Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet"
+        id="prism-theme">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <header class="navbar glass-effect">
+        <div class="logo">
+            <i class="fa-solid fa-shapes"></i>
+            <h1>Pattern<span>Lab</span></h1>
+        </div>
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle Dark Mode">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </header>
+
+    <main class="container">
+        <section class="hero-section text-center">
+            <h2>Master Programming Patterns Visually</h2>
+            <p>Generate, visualize, and understand coding patterns step-by-step.</p>
+        </section>
+
+        <div class="app-grid">
+            <!-- Left Column: Controls -->
+            <aside class="controls-panel glass-effect card">
+                <h3><i class="fa-solid fa-sliders"></i> Configuration</h3>
+
+                <div class="form-group mt-2">
+                    <label for="pattern-type">Pattern Type</label>
+                    <div class="custom-select">
+                        <select id="pattern-type">
+                            <option value="square">Square Pattern</option>
+                            <option value="hollow-square">Hollow Square</option>
+                            <option value="rectangle">Rectangle</option>
+                            <option value="hollow-rectangle">Hollow Rectangle</option>
+                            <option value="right-triangle">Right-angled Triangle</option>
+                            <option value="equilateral-triangle">Equilateral Triangle</option>
+                            <option value="reverse-equilateral">Reverse Equilateral Triangle</option>
+                            <option value="pyramid">Pyramid Pattern</option>
+                            <option value="inverted-pyramid">Inverted Pyramid</option>
+                            <option value="diamond">Diamond Pattern</option>
+                            <option value="number-triangle">Number Triangle</option>
+                            <option value="floyd-triangle">Floyd's Triangle</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="rows">Number of Rows</label>
+                    <input type="number" id="rows" min="2" max="20" value="5" class="input-field">
+                    <small>Recommended: 2 - 15</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="symbol">Symbol</label>
+                    <input type="text" id="symbol" maxlength="1" value="*" class="input-field"
+                        placeholder="e.g. *, #, @">
+                    <small id="symbol-help" style="display:none;">Numbers will automatically ignore this.</small>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="generate-btn" class="btn btn-primary">
+                        <i class="fa-solid fa-bolt"></i> Generate Pattern
+                    </button>
+                    <button id="visualize-btn" class="btn btn-secondary">
+                        <i class="fa-solid fa-play"></i> Visualize Step-by-Step
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Right Column: Output & Details -->
+            <div class="output-panel">
+                <!-- Visual Output Box -->
+                <div class="visual-box glass-effect card">
+                    <div class="box-header">
+                        <h3><i class="fa-solid fa-display"></i> Output</h3>
+                        <span id="status-badge" class="badge">Idle</span>
+                    </div>
+                    <div class="output-container" id="pattern-output">
+                        <div class="placeholder">Configure and generate to see the pattern here.</div>
+                    </div>
+                </div>
+
+                <!-- Explanation Section -->
+                <div class="explanation-box glass-effect card mt-4">
+                    <h3><i class="fa-solid fa-lightbulb"></i> Logic Explanation</h3>
+                    <div id="logic-explanation" class="explanation-content mt-2">
+                        <p class="placeholder-text">Generate a pattern to view its explanation.</p>
+                    </div>
+                </div>
+
+                <!-- Code Block Section -->
+                <div class="code-box glass-effect card mt-4">
+                    <div class="box-header">
+                        <h3><i class="fa-brands fa-java"></i> Java Source Code</h3>
+                        <div class="code-actions">
+                            <button id="show-code-btn" class="btn-icon-text" disabled>
+                                <i class="fa-solid fa-eye"></i> Show Code
+                            </button>
+                            <button id="copy-code-btn" class="btn-icon" aria-label="Copy Code" title="Copy to clipboard"
+                                disabled>
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="code-container collapsed mt-2" id="code-container">
+                        <pre><code class="language-java" id="code-output">// Generate a pattern first</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="learning-section glass-effect card mt-5">
+            <h2 class="section-title"><i class="fa-solid fa-book-open"></i> Learn Pattern Logic</h2>
+            <div class="learning-grid">
+                <div class="learning-item glass-effect-inner">
+                    <div class="icon-wrapper"><i class="fa-solid fa-layer-group"></i></div>
+                    <h4>Nested Loops</h4>
+                    <p>Patterns are deeply reliant on nested loops. The outer loop dictates rows (adding newlines),
+                        while the inner loops handle the columns (printing the spaces and characters).</p>
+                </div>
+                <div class="learning-item glass-effect-inner">
+                    <div class="icon-wrapper"><i class="fa-solid fa-table-cells"></i></div>
+                    <h4>Rows & Columns</h4>
+                    <p>Think of patterns like a grid or matrix. To navigate it, your outer <code>for</code> loop
+                        iterates through rows (Y-axis), and your inner <code>for</code> loop iterates through the
+                        X-axis.</p>
+                </div>
+                <div class="learning-item glass-effect-inner">
+                    <div class="icon-wrapper"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h4>Common Tricks</h4>
+                    <p>Using blank spaces correctly is key to making triangles and diamonds. Learn to manage spaces in a
+                        separate inner loop before printing symbols to create shifting shapes.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Built with ❤️ for interactive programming learning.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
